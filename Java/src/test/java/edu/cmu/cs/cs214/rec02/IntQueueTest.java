@@ -67,6 +67,15 @@ public class IntQueueTest {
     }
 
     @Test
+    public void testClear() {
+        mQueue.enqueue(1);
+        mQueue.enqueue(2);
+        mQueue.enqueue(3);
+        mQueue.clear();
+        assertEquals(0, mQueue.size());
+    }
+
+    @Test
     public void testPeekNoEmptyQueue() {
         // TODO: write your own unit test
         // fail("Test not implemented");
@@ -102,6 +111,37 @@ public class IntQueueTest {
     }
 
     @Test
+    public void testDequeueEmptyQueue() {
+        assertNull(mQueue.dequeue());
+    }
+
+    @Test 
+    public void testEnsureCapacity() {
+        List<Integer> myTestList = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12));
+        for (int i = 0; i < myTestList.size(); i++) {
+            mQueue.enqueue(myTestList.get(i));
+            assertEquals(myTestList.get(0), mQueue.peek());
+            assertEquals(i + 1, mQueue.size());
+        }
+    }
+
+    @Test 
+    public void testEnsureCapacitywithCircular() {
+        List<Integer> myTestList = new ArrayList<>(List.of(1, 2, 3, 4, 5, 6, 7, 8));
+        for (int i = 0; i < myTestList.size(); i++) {
+            mQueue.enqueue(myTestList.get(i));
+            assertEquals(i + 1, mQueue.size());
+        }
+        for (int i = 0; i < 5; i ++) {
+            mQueue.dequeue();
+        }
+        for (int i = 0; i < myTestList.size(); i++) {
+            mQueue.enqueue(myTestList.get(i));
+            assertEquals(4 + i, mQueue.size());
+        }
+    }
+
+    @Test
     public void testContent() throws IOException {
         // This is an example unit test
         InputStream in = new FileInputStream("src/test/resources/data.txt");
@@ -122,5 +162,6 @@ public class IntQueueTest {
         }
     }
 
+    
 
 }
